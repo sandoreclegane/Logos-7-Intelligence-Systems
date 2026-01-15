@@ -147,12 +147,26 @@ export default function Page() {
             <li><strong>Contribute</strong> — Micro-donations keep the lights on while we build</li>
           </ul>
           <div style={{ marginTop: "1rem" }}>
-            <a href="https://buy.stripe.com/bJe5kF3X5cAU49G61Wasg01"
+            <a href="https://buy.stripe.com/dRmeVfeBJgRagWs3TOasg05"
               target="_blank"
               rel="noopener noreferrer"
               className="primary"
               style={{ display: "inline-block", marginRight: "1rem" }}>
-              Make a Contribution
+              Contribute $3
+            </a>
+            <a href="https://buy.stripe.com/14AcN7bpx0ScdKg760asg04"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="primary"
+              style={{ display: "inline-block", marginRight: "1rem" }}>
+              Contribute $5
+            </a>
+            <a href="https://buy.stripe.com/bJe5kF0KT8kEgWscqkasg03"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="primary"
+              style={{ display: "inline-block", marginRight: "1rem" }}>
+              Contribute $17
             </a>
             <a href="https://github.com/logos7org"
               target="_blank"
