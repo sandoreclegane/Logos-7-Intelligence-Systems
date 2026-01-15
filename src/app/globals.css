@@ -1,0 +1,96 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #0e0f11;
+  color: #f5f5f5;
+  line-height: 1.6;
+}
+
+main {
+  max-width: 900px;
+  margin: auto;
+  padding: 4rem 1.5rem;
+}
+
+section {
+  margin-bottom: 4rem;
+}
+
+.hero h1 {
+  font-size: 2.4rem;
+  line-height: 1.2;
+}
+
+.subtitle {
+  color: #c9c9c9;
+  max-width: 650px;
+}
+
+.cta {
+  margin-top: 2rem;
+}
+
+a.primary,
+a.secondary {
+  margin-right: 1rem;
+  padding: 0.6rem 1.1rem;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+a.primary {
+  background: #e0b973;
+  color: #0e0f11;
+}
+
+a.secondary {
+  border: 1px solid #888;
+  color: #f5f5f5;
+}
+
+.card {
+  border: 1px solid #333;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.meta {
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.beacons ol {
+  padding-left: 1.2rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+input,
+textarea {
+  background: #15171a;
+  border: 1px solid #333;
+  color: #f5f5f5;
+  padding: 0.6rem;
+}
+
+button {
+  background: #e0b973;
+  color: #0e0f11;
+  border: none;
+  padding: 0.7rem;
+  cursor: pointer;
+}
+
+footer {
+  margin-top: 6rem;
+  color: #777;
+  font-size: 0.85rem;
+}
