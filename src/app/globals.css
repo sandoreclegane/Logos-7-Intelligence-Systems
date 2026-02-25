@@ -1,96 +1,408 @@
-* {
-  box-sizing: border-box;
+/* ============================================================
+   LOGOS 7 — Global Styles
+   Aesthetic: Ancient permanence, stoic natural light
+   ============================================================ */
+
+:root {
+  --bg:        #0a0a09;
+  --bg2:       #111110;
+  --gold:      #C9A84C;
+  --gold-dim:  #8a6f2e;
+  --text:      #F0EDE6;
+  --muted:     #8a8a7a;
+  --border:    #2a2a26;
+  --card-bg:   #131311;
 }
+
+/* ---------- Reset & Base ---------- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
 
 body {
-  margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #0e0f11;
-  color: #f5f5f5;
-  line-height: 1.6;
+  font-family: 'EB Garamond', 'Garamond', Georgia, serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+  font-size: 1.05rem;
 }
 
+/* ---------- Layout ---------- */
 main {
-  max-width: 900px;
+  max-width: 100%;
   margin: auto;
-  padding: 4rem 1.5rem;
+  padding: 0;
+  overflow: hidden;
 }
 
 section {
-  margin-bottom: 4rem;
+  padding: 7rem 3rem;
+  position: relative;
 }
 
-.hero h1 {
-  font-size: 2.4rem;
-  line-height: 1.2;
+.section-inner {
+  max-width: 720px;
+  margin: 0 auto;
 }
 
-.subtitle {
-  color: #c9c9c9;
-  max-width: 650px;
+/* ---------- Full-bleed image sections ---------- */
+.hero,
+.section-forest,
+.section-river,
+.section-ruins,
+.section-mist,
+.section-stone,
+.section-dusk {
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
 }
 
-.cta {
-  margin-top: 2rem;
+.hero::before,
+.section-forest::before,
+.section-river::before,
+.section-ruins::before,
+.section-mist::before,
+.section-stone::before,
+.section-dusk::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(10,10,9,0.65) 0%,
+    rgba(10,10,9,0.55) 50%,
+    rgba(10,10,9,0.82) 100%
+  );
+  z-index: 0;
 }
 
-a.primary,
-a.secondary {
-  margin-right: 1rem;
-  padding: 0.6rem 1.1rem;
-  text-decoration: none;
-  border-radius: 4px;
+.hero > *,
+.section-forest > *,
+.section-river > *,
+.section-ruins > *,
+.section-mist > *,
+.section-stone > *,
+.section-dusk > * {
+  position: relative;
+  z-index: 1;
 }
 
-a.primary {
-  background: #e0b973;
-  color: #0e0f11;
+/* --- Hero: Mountain sunrise --- */
+.hero {
+  background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1800&q=80');
+  padding: 10rem 3rem 8rem;
+  min-height: 95vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-a.secondary {
-  border: 1px solid #888;
-  color: #f5f5f5;
+/* --- Forest: Eden section --- */
+.section-forest {
+  background-image: url('https://images.unsplash.com/photo-1448375240586-882707db888b?w=1800&q=80');
 }
 
-.card {
-  border: 1px solid #333;
-  padding: 1.5rem;
+/* --- River: Cooperative model --- */
+.section-river {
+  background-image: url('https://images.unsplash.com/photo-1439853949212-36089c8d8a91?w=1800&q=80');
+}
+
+/* --- Ruins: Participate / Services --- */
+.section-ruins {
+  background-image: url('https://images.unsplash.com/photo-1555993539-1732b0258235?w=1800&q=80');
+}
+
+/* --- Mist: About Matt --- */
+.section-mist {
+  background-image: url('https://images.unsplash.com/photo-1501854140801-50d01698950b?w=1800&q=80');
+}
+
+/* --- Stone texture: Principles --- */
+.section-stone {
+  background-image: url('https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?w=1800&q=80');
+}
+
+/* --- Dusk: Contact --- */
+.section-dusk {
+  background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1800&q=80');
+}
+
+/* ---------- Brand / Logo mark ---------- */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
   margin-bottom: 2rem;
 }
 
-.meta {
-  color: #999;
+.brandName {
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-family: 'EB Garamond', Georgia, serif;
+}
+
+/* ---------- Typography ---------- */
+h1, h2, h3, h4 {
+  font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--text);
+}
+
+h1 {
+  font-size: clamp(2.8rem, 5vw, 4.4rem);
+  letter-spacing: -0.01em;
+  margin-bottom: 1.5rem;
+}
+
+h2 {
+  font-size: clamp(1.9rem, 3vw, 2.8rem);
+  margin-bottom: 1.5rem;
+}
+
+h3 {
+  font-size: 1.15rem;
+  margin-bottom: 0.75rem;
+  color: var(--gold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+p {
+  margin-bottom: 1.2rem;
+  color: var(--text);
+}
+
+.motto {
+  font-size: 0.75rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 2.5rem;
+  opacity: 0.8;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  color: #d4d0c8;
+  max-width: 620px;
+  line-height: 1.8;
+  font-style: italic;
+  margin-bottom: 1.5rem;
+}
+
+/* ---------- CTAs ---------- */
+.cta {
+  margin-top: 2.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+a.primary, button.primary {
+  padding: 0.8rem 2rem;
+  text-decoration: none;
+  border-radius: 2px;
+  background: var(--gold);
+  color: #0a0a09;
+  font-family: 'EB Garamond', Georgia, serif;
   font-size: 0.9rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: background 0.2s;
+  display: inline-block;
 }
 
-.beacons ol {
-  padding-left: 1.2rem;
+a.primary:hover, button.primary:hover {
+  background: #b8923d;
 }
 
+a.secondary, button.secondary {
+  padding: 0.75rem 1.9rem;
+  text-decoration: none;
+  border-radius: 2px;
+  border: 1px solid var(--gold-dim);
+  color: var(--text);
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: border-color 0.2s, color 0.2s;
+  display: inline-block;
+}
+
+a.secondary:hover, button.secondary:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+/* ---------- Cards ---------- */
+.card {
+  border-left: 2px solid var(--gold-dim);
+  padding: 1.75rem 2rem;
+  margin-bottom: 2.5rem;
+  background: rgba(19, 19, 17, 0.7);
+  backdrop-filter: blur(6px);
+  transition: border-color 0.25s;
+}
+
+.card:hover {
+  border-left-color: var(--gold);
+}
+
+/* ---------- Lists ---------- */
+ul, ol {
+  padding-left: 1.4rem;
+  margin-bottom: 1.2rem;
+  color: var(--text);
+}
+
+li {
+  margin-bottom: 0.5rem;
+  line-height: 1.7;
+}
+
+/* ---------- Divider ---------- */
+.hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 0;
+}
+
+/* ---------- Video ---------- */
+.video-container {
+  margin-top: 2rem;
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  max-width: 800px;
+}
+
+/* ---------- Form ---------- */
 form {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 1rem;
+  max-width: 600px;
 }
 
-input,
-textarea {
-  background: #15171a;
-  border: 1px solid #333;
-  color: #f5f5f5;
-  padding: 0.6rem;
+input, textarea {
+  background: rgba(10,10,9,0.75);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  color: var(--text);
+  padding: 0.9rem 1rem;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 1rem;
+  transition: border-color 0.2s;
 }
 
-button {
-  background: #e0b973;
-  color: #0e0f11;
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--gold-dim);
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--muted);
+}
+
+button[type="submit"] {
+  background: var(--gold);
+  color: #0a0a09;
   border: none;
-  padding: 0.7rem;
+  padding: 0.9rem 2.2rem;
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   cursor: pointer;
+  border-radius: 2px;
+  transition: background 0.2s;
+  align-self: flex-start;
 }
 
+button[type="submit"]:hover {
+  background: #b8923d;
+}
+
+/* ---------- Contribute row ---------- */
+.contribute-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+/* ---------- Principles / Beacons ---------- */
+.beacons ol {
+  list-style: none;
+  padding: 0;
+  counter-reset: beacon;
+}
+
+.beacons ol li {
+  counter-increment: beacon;
+  padding: 1.25rem 1.75rem;
+  border-left: 2px solid var(--gold-dim);
+  margin-bottom: 1.25rem;
+  background: rgba(19,19,17,0.6);
+  backdrop-filter: blur(4px);
+  transition: border-color 0.2s;
+}
+
+.beacons ol li:hover {
+  border-left-color: var(--gold);
+}
+
+.beacons ol li::before {
+  content: counter(beacon, upper-roman) ".\00a0";
+  color: var(--gold);
+  letter-spacing: 0.08em;
+}
+
+/* ---------- Footer ---------- */
 footer {
-  margin-top: 6rem;
-  color: #777;
-  font-size: 0.85rem;
+  padding: 4rem 3rem;
+  background: var(--bg);
+  color: var(--muted);
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  text-align: center;
+  border-top: 1px solid var(--border);
+}
+
+footer a {
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+footer a:hover { color: var(--gold); }
+
+/* ---------- Contact direct links ---------- */
+.contact-direct {
+  margin-top: 2rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.contact-direct a {
+  color: var(--gold);
+  text-decoration: none;
+}
+
+.contact-direct a:hover { color: #e0c97a; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 700px) {
+  section { padding: 5rem 1.5rem; }
+  .hero { padding: 6rem 1.5rem; min-height: 80vh; }
+  h1 { font-size: 2.2rem; }
+  h2 { font-size: 1.6rem; }
+  .cta { flex-direction: column; }
+  .card { padding: 1.25rem 1.25rem; }
 }
