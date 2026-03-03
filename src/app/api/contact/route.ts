@@ -12,7 +12,7 @@ export async function POST(req: Request) {
                 resend.emails.send({
                           from: 'Logos 7 Contact <contact@logos7.org>',
                           to: 'tmc@logos7.org',
-                          replyTo: email,
+                          reply_to: email,
                           subject: `New message from ${name}${organization ? ` — ${organization}` : ''}`,
                           html: `
                                     <p><strong>Name:</strong> ${name}</p>
