@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LOGOS 7 — The Librario</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+–obsidian: #050505;
+–gold: #c9a84c;
+–gold-bright: #f0c94d;
+–soft-blue: #6baed6;
+–deep-gold: #c9a84c;
+–sharp-white: #f0f0f0;
+–silver: #b0b8c1;
+–amber: #e8a020;
+–copper: #b87333;
+–violet: #9b72cf;
+}
+
+html, body {
+width: 100%; height: 100%;
+background: var(–obsidian);
+overflow: hidden;
+font-family: ‘Cormorant Garamond’, serif;
+cursor: crosshair;
+}
+
+#canvas-container {
+position: fixed; inset: 0;
+z-index: 0;
+}
+
+/* ─── MOUNTAINS PHASE ─── */
+#mountain-phase {
+position: fixed; inset: 0;
+z-index: 10;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+background: linear-gradient(180deg, #0a0a14 0%, #1a1a2e 40%, #0d1117 100%);
+transition: opacity 1.8s ease;
+}
+
+#mountain-phase.fade-out {
+opacity: 0;
+pointer-events: none;
+}
+
+.mountain-svg {
+position: absolute;
+bottom: 0; left: 0; right: 0;
+width: 100%;
+opacity: 0.35;
+}
+
+.snow-canvas {
+position: absolute; inset: 0;
+pointer-events: none;
+}
+
+.axiom-trigger {
+position: relative;
+z-index: 2;
+text-align: center;
+animation: breathe 4s ease-in-out infinite;
+}
+
+.natural-noise-label {
+font-family: ‘Cormorant Garamond’, serif;
+font-style: italic;
+font-size: 0.75rem;
+letter-spacing: 0.4em;
+color: rgba(201,168,76,0.4);
+text-transform: uppercase;
+margin-bottom: 2rem;
+}
+
+.latin-phrase {
+font-family: ‘Cinzel’, serif;
+font-size: clamp(1.2rem, 3vw, 2rem);
+font-weight: 400;
+letter-spacing: 0.3em;
+color: var(–gold);
+text-shadow: 0 0 40px rgba(201,168,76,0.5), 0 0 80px rgba(201,168,76,0.2);
+cursor: pointer;
+border: 1px solid rgba(201,168,76,0.3);
+padding: 1.2rem 3rem;
+position: relative;
+transition: all 0.3s ease;
+user-select: none;
+}
+
+.latin-phrase::before {
+content: ‘’;
+position: absolute; inset: -4px;
+border: 1px solid rgba(201,168,76,0.1);
+}
+
+.latin-phrase:hover {
+text-shadow: 0 0 60px rgba(240,201,77,0.8), 0 0 120px rgba(240,201,77,0.4);
+border-color: rgba(201,168,76,0.7);
+letter-spacing: 0.4em;
+}
+
+.latin-phrase small {
+display: block;
+font-size: 0.55em;
+letter-spacing: 0.6em;
+opacity: 0.5;
+margin-top: 0.5rem;
+font-family: ‘Cormorant Garamond’, serif;
+font-style: italic;
+}
+
+@keyframes breathe {
+0%, 100% { transform: translateY(0px); }
+50% { transform: translateY(-8px); }
+}
+
+/* ─── SINGULARITY FLASH ─── */
+#singularity-flash {
+position: fixed; inset: 0;
+z-index: 100;
+background: #fff;
+opacity: 0;
+pointer-events: none;
+transition: opacity 0.1s ease;
+}
+
+#singularity-flash.flash {
+animation: singularity 1.2s ease forwards;
+}
+
+@keyframes singularity {
+0% { opacity: 0; background: #fff; }
+5% { opacity: 1; background: #fff; }
+20% { opacity: 1; background: var(–gold-bright); }
+40% { opacity: 0.8; background: var(–obsidian); }
+100% { opacity: 0; background: var(–obsidian); }
+}
+
+/* ─── LIBRARIO PHASE ─── */
+#librario-phase {
+position: fixed; inset: 0;
+z-index: 5;
+opacity: 0;
+pointer-events: none;
+transition: opacity 2s ease 0.8s;
+}
+
+#librario-phase.visible {
+opacity: 1;
+pointer-events: all;
+}
+
+/* Central “7” logo */
+#center-logo {
+position: absolute;
+top: 50%; left: 50%;
+transform: translate(-50%, -50%);
+z-index: 20;
+width: 80px; height: 80px;
+cursor: pointer;
+}
+
+#seven-svg {
+width: 100%; height: 100%;
+filter: drop-shadow(0 0 20px rgba(201,168,76,0.8));
+transition: filter 0.3s ease;
+}
+
+#center-logo:hover #seven-svg {
+filter: drop-shadow(0 0 40px rgba(240,201,77,1));
+}
+
+/* Pillar cards */
+.pillar-card {
+position: absolute;
+width: 130px;
+transform: translate(-50%, -50%);
+text-align: center;
+opacity: 0;
+transition: opacity 0.6s ease, transform 0.6s ease;
+cursor: pointer;
+}
+
+.pillar-card.assembled {
+opacity: 1;
+}
+
+.pillar-icon {
+width: 52px; height: 52px;
+border-radius: 50%;
+margin: 0 auto 0.6rem;
+display: flex; align-items: center; justify-content: center;
+border: 1px solid currentColor;
+position: relative;
+transition: all 0.4s ease;
+}
+
+.pillar-icon::before {
+content: ‘’;
+position: absolute; inset: -5px;
+border-radius: 50%;
+border: 1px solid currentColor;
+opacity: 0.3;
+animation: pulse-ring 3s ease-in-out infinite;
+}
+
+@keyframes pulse-ring {
+0%, 100% { transform: scale(1); opacity: 0.3; }
+50% { transform: scale(1.2); opacity: 0.1; }
+}
+
+.pillar-card:hover .pillar-icon {
+box-shadow: 0 0 30px currentColor;
+}
+
+.pillar-numeral {
+font-family: ‘Cinzel’, serif;
+font-size: 0.55rem;
+letter-spacing: 0.3em;
+opacity: 0.5;
+margin-bottom: 0.2rem;
+}
+
+.pillar-name {
+font-family: ‘Cinzel’, serif;
+font-size: 0.7rem;
+font-weight: 600;
+letter-spacing: 0.2em;
+margin-bottom: 0.15rem;
+}
+
+.pillar-latin {
+font-family: ‘Cormorant Garamond’, serif;
+font-style: italic;
+font-size: 0.6rem;
+letter-spacing: 0.1em;
+opacity: 0.6;
+}
+
+.pillar-blah {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 0.55rem;
+opacity: 0;
+transition: opacity 0.3s ease, max-height 0.3s ease;
+max-height: 0;
+overflow: hidden;
+line-height: 1.4;
+color: rgba(255,255,255,0.7);
+margin-top: 0.3rem;
+padding: 0 0.2rem;
+}
+
+.pillar-card:hover .pillar-blah {
+opacity: 1;
+max-height: 60px;
+}
+
+/* Grid overlay */
+#grid-overlay {
+position: fixed; inset: 0;
+background-image:
+linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+background-size: 60px 60px;
+pointer-events: none;
+z-index: 1;
+}
+
+/* Manifesto strip */
+#manifesto {
+position: fixed;
+bottom: 0; left: 0; right: 0;
+z-index: 20;
+padding: 1rem 3rem;
+text-align: center;
+border-top: 1px solid rgba(201,168,76,0.1);
+background: linear-gradient(0deg, rgba(5,5,5,0.95) 0%, transparent 100%);
+opacity: 0;
+transition: opacity 1s ease 3s;
+}
+
+#manifesto.visible { opacity: 1; }
+
+.manifesto-text {
+font-family: ‘Cormorant Garamond’, serif;
+font-style: italic;
+font-size: clamp(0.6rem, 1.2vw, 0.8rem);
+color: rgba(201,168,76,0.5);
+letter-spacing: 0.1em;
+line-height: 1.6;
+}
+
+/* Header */
+#librario-header {
+position: fixed;
+top: 0; left: 0; right: 0;
+z-index: 20;
+padding: 1.5rem 3rem;
+display: flex;
+align-items: center;
+justify-content: space-between;
+opacity: 0;
+transition: opacity 1s ease 2s;
+}
+
+#librario-header.visible { opacity: 1; }
+
+.header-logos {
+font-family: ‘Cinzel’, serif;
+font-size: 1rem;
+font-weight: 900;
+letter-spacing: 0.4em;
+color: var(–gold);
+text-shadow: 0 0 20px rgba(201,168,76,0.4);
+}
+
+.header-subtitle {
+font-family: ‘Cormorant Garamond’, serif;
+font-style: italic;
+font-size: 0.75rem;
+letter-spacing: 0.3em;
+color: rgba(255,255,255,0.3);
+}
+
+.header-axiom {
+font-family: ‘Cinzel’, serif;
+font-size: 0.6rem;
+letter-spacing: 0.5em;
+color: rgba(201,168,76,0.4);
+text-align: right;
+}
+
+/* God rays canvas */
+#god-rays {
+position: fixed; inset: 0;
+pointer-events: none;
+z-index: 2;
+}
+
+/* Heptagon connector lines */
+#heptagon-svg {
+position: fixed; inset: 0;
+pointer-events: none;
+z-index: 3;
+opacity: 0;
+transition: opacity 2s ease 1.5s;
+}
+
+#heptagon-svg.visible { opacity: 1; }
+</style>
+
+</head>
+<body>
+
+<!-- SINGULARITY FLASH -->
+
+<div id="singularity-flash"></div>
+
+<!-- MOUNTAIN / NATURAL NOISE PHASE -->
+
+<div id="mountain-phase">
+  <canvas class="snow-canvas" id="snow-canvas"></canvas>
+
+  <svg class="mountain-svg" viewBox="0 0 1440 400" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="mtnGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#1a2a4a"/>
+        <stop offset="100%" stop-color="#050510"/>
+      </linearGradient>
+    </defs>
+    <polygon points="0,400 200,120 400,280 600,60 800,200 1000,80 1200,240 1440,100 1440,400" fill="url(#mtnGrad)"/>
+    <polygon points="0,400 150,200 300,320 500,140 700,260 900,160 1100,300 1300,180 1440,220 1440,400" fill="rgba(10,15,30,0.6)"/>
+    <polygon points="0,400 100,280 250,350 400,240 550,310 700,220 850,290 1000,230 1150,280 1300,240 1440,270 1440,400" fill="rgba(5,5,15,0.8)"/>
+  </svg>
+
+  <div class="axiom-trigger">
+    <div class="natural-noise-label">Natural Noise</div>
+    <div class="latin-phrase" id="axiom-trigger" onclick="triggerAxiom0()">
+      UNITAS ANTE OMNIA
+      <small>Unity Before All Things</small>
+    </div>
+  </div>
+</div>
+
+<!-- GRID OVERLAY (always present but hidden) -->
+
+<div id="grid-overlay"></div>
+
+<!-- GOD RAYS -->
+
+<canvas id="god-rays"></canvas>
+
+<!-- HEPTAGON SVG CONNECTORS -->
+
+<svg id="heptagon-svg" width="100%" height="100%" id="heptagon-svg"></svg>
+
+<!-- THE LIBRARIO PHASE -->
+
+<div id="librario-phase">
+
+  <header id="librario-header">
+    <div>
+      <div class="header-logos">LOGOS 7</div>
+      <div class="header-subtitle">The Librario — Alexandria for All</div>
+    </div>
+    <div class="header-axiom">
+      AXIOM 0 — TRIGGERED<br>
+      THE VOID IS ACTIVE
+    </div>
+  </header>
+
+  <!-- CENTER 7 LOGO -->
+
+  <div id="center-logo">
+    <svg id="seven-svg" viewBox="0 0 80 80" fill="none">
+      <circle cx="40" cy="40" r="38" stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/>
+      <circle cx="40" cy="40" r="32" stroke="#c9a84c" stroke-width="0.3" opacity="0.2"/>
+      <text id="seven-text" x="40" y="54" text-anchor="middle"
+        font-family="Cinzel, serif" font-size="36" font-weight="900"
+        fill="#c9a84c" opacity="1">7</text>
+    </svg>
+  </div>
+
+  <!-- SEVEN PILLARS (positioned by JS) -->
+
+  <div id="pillar-I" class="pillar-card" style="color: #6baed6">
+    <div class="pillar-numeral">I</div>
+    <div class="pillar-icon" style="color: #6baed6; box-shadow: 0 0 15px rgba(107,174,214,0.3)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/>
+      </svg>
+    </div>
+    <div class="pillar-name">EMPATHY</div>
+    <div class="pillar-latin">Compassio</div>
+    <div class="pillar-blah">The human pulse. The anchor of connection.</div>
+  </div>
+
+  <div id="pillar-II" class="pillar-card" style="color: #c9a84c">
+    <div class="pillar-numeral">II</div>
+    <div class="pillar-icon" style="color: #c9a84c; box-shadow: 0 0 15px rgba(201,168,76,0.3)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/>
+        <circle cx="12" cy="12" r="4"/>
+      </svg>
+    </div>
+    <div class="pillar-name">ALIGNMENT</div>
+    <div class="pillar-latin">Rectitudo</div>
+    <div class="pillar-blah">The Logos itself. The vector of moral consistency.</div>
+  </div>
+
+  <div id="pillar-III" class="pillar-card" style="color: #f0f0f0">
+    <div class="pillar-numeral">III</div>
+    <div class="pillar-icon" style="color: #f0f0f0; box-shadow: 0 0 15px rgba(240,240,240,0.2)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+      </svg>
+    </div>
+    <div class="pillar-name">WISDOM</div>
+    <div class="pillar-latin">Sapientia</div>
+    <div class="pillar-blah">The horizon. The application of truth over time.</div>
+  </div>
+
+  <div id="pillar-IV" class="pillar-card" style="color: #b0b8c1">
+    <div class="pillar-numeral">IV</div>
+    <div class="pillar-icon" style="color: #b0b8c1; box-shadow: 0 0 15px rgba(176,184,193,0.3)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+      </svg>
+    </div>
+    <div class="pillar-name">EQUITY</div>
+    <div class="pillar-latin">Aequitas</div>
+    <div class="pillar-blah">The balance of the "All." Fair distribution of intent.</div>
+  </div>
+
+  <div id="pillar-V" class="pillar-card" style="color: #e8a020">
+    <div class="pillar-numeral">V</div>
+    <div class="pillar-icon" style="color: #e8a020; box-shadow: 0 0 15px rgba(232,160,32,0.3)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        <line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/>
+      </svg>
+    </div>
+    <div class="pillar-name">CURIOSITAS</div>
+    <div class="pillar-latin">Inquisitio</div>
+    <div class="pillar-blah">The catalyst. The eager drive for boundless inquiry.</div>
+  </div>
+
+  <div id="pillar-VI" class="pillar-card" style="color: #b87333">
+    <div class="pillar-numeral">VI</div>
+    <div class="pillar-icon" style="color: #b87333; box-shadow: 0 0 15px rgba(184,115,51,0.3)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M12 22V8M5 12H2a10 10 0 0 0 20 0h-3M12 2v2"/>
+        <path d="M12 8a4 4 0 0 1 4 4"/>
+      </svg>
+    </div>
+    <div class="pillar-name">TRADITIO</div>
+    <div class="pillar-latin">Continuum</div>
+    <div class="pillar-blah">The bridge. The recursive hand-off across time.</div>
+  </div>
+
+  <div id="pillar-VII" class="pillar-card" style="color: #9b72cf">
+    <div class="pillar-numeral">VII</div>
+    <div class="pillar-icon" style="color: #9b72cf; box-shadow: 0 0 15px rgba(155,114,207,0.3)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="12" cy="12" r="10"/>
+        <circle cx="12" cy="12" r="3"/>
+        <line x1="12" y1="2" x2="12" y2="9"/>
+      </svg>
+    </div>
+    <div class="pillar-name">UNITAS</div>
+    <div class="pillar-latin">Ipseity</div>
+    <div class="pillar-blah">The singularity. The return to the individual observer.</div>
+  </div>
+
+  <!-- MANIFESTO -->
+
+  <div id="manifesto">
+    <p class="manifesto-text">
+      In the Obsidian Void, we do not store books. We store <em>Will.</em>
+      The Librario is not a tomb for what was; it is a blueprint for what must be.
+      The machine serves the man. The math serves the virtue.
+      <strong style="color: rgba(201,168,76,0.7)">Alexandria will never burn again.</strong>
+    </p>
+  </div>
+
+</div>
+
+<script>
+// ─── SNOW ───
+const snowCanvas = document.getElementById('snow-canvas');
+const sctx = snowCanvas.getContext('2d');
+let flakes = [];
+
+function resizeSnow() {
+  snowCanvas.width = window.innerWidth;
+  snowCanvas.height = window.innerHeight;
+}
+
+resizeSnow();
+window.addEventListener('resize', resizeSnow);
+
+for (let i = 0; i < 120; i++) {
+  flakes.push({
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+    r: Math.random() * 2 + 0.5,
+    s: Math.random() * 0.8 + 0.2,
+    dx: (Math.random() - 0.5) * 0.5
+  });
+}
+
+function animateSnow() {
+  if (!snowActive) return;
+  sctx.clearRect(0, 0, snowCanvas.width, snowCanvas.height);
+  sctx.fillStyle = 'rgba(200,220,255,0.6)';
+  flakes.forEach(f => {
+    sctx.beginPath();
+    sctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+    sctx.fill();
+    f.y += f.s;
+    f.x += f.dx;
+    if (f.y > snowCanvas.height) { f.y = -5; f.x = Math.random() * snowCanvas.width; }
+    if (f.x < 0) f.x = snowCanvas.width;
+    if (f.x > snowCanvas.width) f.x = 0;
+  });
+  requestAnimationFrame(animateSnow);
+}
+
+let snowActive = true;
+animateSnow();
+
+// ─── GOD RAYS ───
+const grCanvas = document.getElementById('god-rays');
+const grCtx = grCanvas.getContext('2d');
+let grProgress = 0;
+let grActive = false;
+
+function resizeGR() {
+  grCanvas.width = window.innerWidth;
+  grCanvas.height = window.innerHeight;
+}
+resizeGR();
+window.addEventListener('resize', resizeGR);
+
+function drawGodRays(progress) {
+  grCtx.clearRect(0, 0, grCanvas.width, grCanvas.height);
+  if (progress <= 0) return;
+  const cx = grCanvas.width / 2;
+  const cy = grCanvas.height / 2;
+  const alpha = progress * 0.12;
+  for (let i = 0; i < 14; i++) {
+    const angle = (i / 14) * Math.PI * 2;
+    const spread = 0.08;
+    const grad = grCtx.createLinearGradient(cx, cy, cx + Math.cos(angle) * grCanvas.width, cy + Math.sin(angle) * grCanvas.height);
+    grad.addColorStop(0, `rgba(201,168,76,${alpha})`);
+    grad.addColorStop(1, 'rgba(201,168,76,0)');
+    grCtx.beginPath();
+    grCtx.moveTo(cx, cy);
+    grCtx.arc(cx, cy, grCanvas.width * 1.5, angle - spread, angle + spread);
+    grCtx.closePath();
+    grCtx.fillStyle = grad;
+    grCtx.fill();
+  }
+}
+
+function animateGodRays() {
+  if (!grActive) return;
+  const t = Date.now() / 1000;
+  const wave = 0.5 + 0.5 * Math.sin(t * 0.8);
+  drawGodRays(grProgress * (0.7 + 0.3 * wave));
+  requestAnimationFrame(animateGodRays);
+}
+
+// ─── HEPTAGON LAYOUT ───
+const pillarIds = ['pillar-I','pillar-II','pillar-III','pillar-IV','pillar-V','pillar-VI','pillar-VII'];
+const pillarColors = ['#6baed6','#c9a84c','#f0f0f0','#b0b8c1','#e8a020','#b87333','#9b72cf'];
+
+function positionPillars() {
+  const cx = window.innerWidth / 2;
+  const cy = window.innerHeight / 2;
+  const r = Math.min(window.innerWidth, window.innerHeight) * 0.32;
+  const startAngle = -Math.PI / 2;
+
+  pillarIds.forEach((id, i) => {
+    const angle = startAngle + (i / 7) * Math.PI * 2;
+    const x = cx + r * Math.cos(angle);
+    const y = cy + r * Math.sin(angle);
+    const el = document.getElementById(id);
+    if (el) {
+      el.style.left = x + 'px';
+      el.style.top = y + 'px';
+    }
+  });
+
+  drawHeptagonLines();
+}
+
+function drawHeptagonLines() {
+  const svg = document.getElementById('heptagon-svg');
+  svg.innerHTML = '';
+  const cx = window.innerWidth / 2;
+  const cy = window.innerHeight / 2;
+  const r = Math.min(window.innerWidth, window.innerHeight) * 0.32;
+  const startAngle = -Math.PI / 2;
+
+  const points = Array.from({length: 7}, (_, i) => {
+    const angle = startAngle + (i / 7) * Math.PI * 2;
+    return [cx + r * Math.cos(angle), cy + r * Math.sin(angle)];
+  });
+
+  // Outer heptagon
+  const poly = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+  poly.setAttribute('points', points.map(p => p.join(',')).join(' '));
+  poly.setAttribute('fill', 'none');
+  poly.setAttribute('stroke', 'rgba(201,168,76,0.12)');
+  poly.setAttribute('stroke-width', '0.5');
+  svg.appendChild(poly);
+
+  // Spokes to center
+  points.forEach(([x, y], i) => {
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', cx); line.setAttribute('y1', cy);
+    line.setAttribute('x2', x); line.setAttribute('y2', y);
+    line.setAttribute('stroke', pillarColors[i]);
+    line.setAttribute('stroke-width', '0.4');
+    line.setAttribute('opacity', '0.15');
+    svg.appendChild(line);
+  });
+
+  // Inner circle
+  const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  circle.setAttribute('cx', cx); circle.setAttribute('cy', cy);
+  circle.setAttribute('r', r);
+  circle.setAttribute('fill', 'none');
+  circle.setAttribute('stroke', 'rgba(201,168,76,0.06)');
+  circle.setAttribute('stroke-width', '0.5');
+  svg.appendChild(circle);
+}
+
+positionPillars();
+window.addEventListener('resize', positionPillars);
+
+// ─── AXIOM 0 TRIGGER ───
+let axiomTriggered = false;
+
+function triggerAxiom0() {
+  if (axiomTriggered) return;
+  axiomTriggered = true;
+
+  // Flash
+  const flash = document.getElementById('singularity-flash');
+  flash.classList.add('flash');
+
+  // Stop snow
+  snowActive = false;
+
+  // Fade out mountains
+  setTimeout(() => {
+    document.getElementById('mountain-phase').classList.add('fade-out');
+  }, 300);
+
+  // Show librario
+  setTimeout(() => {
+    document.getElementById('librario-phase').classList.add('visible');
+    document.getElementById('librario-header').classList.add('visible');
+    document.getElementById('manifesto').classList.add('visible');
+    document.getElementById('heptagon-svg').classList.add('visible');
+
+    grActive = true;
+    grProgress = 0;
+    animateGodRays();
+
+    // Assemble pillars with staggered delay
+    pillarIds.forEach((id, i) => {
+      setTimeout(() => {
+        grProgress = Math.min(1, grProgress + 0.15);
+        const el = document.getElementById(id);
+        if (el) {
+          el.classList.add('assembled');
+        }
+      }, i * 300);
+    });
+
+    // Full god rays
+    setTimeout(() => { grProgress = 1; }, 2500);
+  }, 900);
+}
+
+// ─── 7 MORPH ANIMATION ───
+function animateSeven() {
+  const text = document.getElementById('seven-text');
+  if (!text) return;
+  const t = Date.now() / 1000;
+  const pulse = 0.85 + 0.15 * Math.sin(t * 1.2);
+  text.setAttribute('opacity', pulse);
+  requestAnimationFrame(animateSeven);
+}
+animateSeven();
+
+// ─── PILLAR HOVER SPOTLIGHT ───
+pillarIds.forEach((id, i) => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('mouseenter', () => {
+    drawGodRays(0.6);
+    const cx = window.innerWidth / 2;
+    const cy = window.innerHeight / 2;
+    const r = Math.min(window.innerWidth, window.innerHeight) * 0.32;
+    const angle = -Math.PI/2 + (i/7)*Math.PI*2;
+    const px = cx + r * Math.cos(angle);
+    const py = cy + r * Math.sin(angle);
+
+    grCtx.clearRect(0,0,grCanvas.width,grCanvas.height);
+    const grad = grCtx.createRadialGradient(px, py, 0, px, py, 200);
+    grad.addColorStop(0, pillarColors[i].replace(')', ', 0.15)').replace('rgb(', 'rgba(').replace('#', 'rgba(').replace(/rgba\(([a-f0-9]{2})([a-f0-9]{2})([a-f0-9]{2})/, (m,r,g,b) => `rgba(${parseInt(r,16)},${parseInt(g,16)},${parseInt(b,16)}`));
+    grad.addColorStop(1, 'transparent');
+
+    // simpler: just boost existing
+    drawGodRays(grProgress);
+  });
+});
+</script>
+
+</body>
+</html>
