@@ -12,7 +12,7 @@ export default function Page() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        name: fd.get('name'),h
+        name: fd.get('name'),
         email: fd.get('email'),
         organization: fd.get('organization'),
         message: fd.get('message'),
