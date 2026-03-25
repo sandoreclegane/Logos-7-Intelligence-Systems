@@ -12,7 +12,7 @@ export default function Page() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        name: fd.get('name'),
+        name: fd.get('name'),h
         email: fd.get('email'),
         organization: fd.get('organization'),
         message: fd.get('message'),
@@ -108,7 +108,7 @@ export default function Page() {
               <a href="https://buy.stripe.com/dRmeVfeBJgRagWs3TOasg05" target="_blank" rel="noopener noreferrer" className="primary">Contribute $3</a>
               <a href="https://buy.stripe.com/14AcN7bpx0ScdKg760asg04" target="_blank" rel="noopener noreferrer" className="primary">Contribute $5</a>
               <a href="https://buy.stripe.com/00wcN7fFN7gA21y0HCasg06" target="_blank" rel="noopener noreferrer" className="primary">Contribute $7</a>
-              <a href="https://github.com/logos7org" target="_blank" rel="noopener noreferrer" className="secondary">Follow on GitHub</a>
+              <a href="https://github.com/logos7org" target="_blank" rel="noopener noreferrer" className="secondary">Follow on GitHub</a></div><div style={{ marginTop: '1.5rem' }}><p style={{ fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', fontSize: '0.75rem', color: '#c9a84c', marginBottom: '0.75rem' }}>The Work</p><a href="https://clegane.logos7.org" target="_blank" rel="noopener noreferrer" className="secondary">The Work</a></div>
             </div>
           </div>
         </div>
