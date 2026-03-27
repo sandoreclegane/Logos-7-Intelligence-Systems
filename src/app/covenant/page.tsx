@@ -192,6 +192,7 @@ export default function CovenantPage() {
         </div>
 
         <button
+          type="button"
           className={styles.covenantBtn}
           onClick={handleSubmit}
           disabled={!canSubmit || submitting}
