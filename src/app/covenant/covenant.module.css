@@ -243,23 +243,27 @@
 }
 
 .covenantBtn {
-  margin-top: 2.5rem;
-  width: 100%;
-  padding: 14px 24px;
-  background: #f5efd6;
-  color: #141820;
-  border: none;
-  border-radius: 8px;
-  font-family: 'Spectral', serif;
-  font-weight: 300;
-  font-size: 15px;
-  letter-spacing: 0.08em;
-  cursor: pointer;
-  transition: opacity 0.2s, transform 0.15s;
+  margin-top: 2.5rem !important;
+  width: 100% !important;
+  padding: 14px 24px !important;
+  background: #f5efd6 !important;
+  color: #141820 !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-family: 'Spectral', serif !important;
+  font-weight: 300 !important;
+  font-size: 15px !important;
+  letter-spacing: 0.08em !important;
+  text-transform: none !important;
+  cursor: pointer !important;
+  transition: opacity 0.2s, transform 0.15s !important;
+  align-self: auto !important;
+  display: block !important;
 }
 
 .covenantBtn:hover:not(:disabled) {
   opacity: 0.85;
+  background: #f5efd6 !important;
 }
 
 .covenantBtn:active:not(:disabled) {
@@ -267,8 +271,8 @@
 }
 
 .covenantBtn:disabled {
-  opacity: 0.3;
-  cursor: default;
+  opacity: 0.3 !important;
+  cursor: default !important;
 }
 
 .confirmState {
