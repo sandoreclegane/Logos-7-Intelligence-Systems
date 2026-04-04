@@ -1,10 +1,10 @@
 import { Resend } from 'resend';
 import { NextResponse } from 'next/server';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
 const AUDIENCE_ID = '363b9c12-1d4e-4792-8743-e4ef5a682c0e';
 
 export async function POST(req: Request) {
+    const resend = new Resend(process.env.RESEND_API_KEY);
     const { name, email, organization, message } = await req.json();
 
   try {

@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { track } from '@vercel/analytics';
 
 export default function Page() {
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
@@ -18,7 +19,12 @@ export default function Page() {
         message: fd.get('message'),
       }),
     });
-    setStatus(res.ok ? 'sent' : 'error');
+    if (res.ok) {
+      track('contact_form_submit');
+      setStatus('sent');
+    } else {
+      setStatus('error');
+    }
   }
 
   return (
@@ -33,7 +39,7 @@ export default function Page() {
           <h1>Technology does not lead.<br />It follows.</h1>
           <p className="subtitle">Logos 7 is a human-AI cooperative built on that principle &mdash; a working institution for leaders and practitioners who understand that the measure of any system is what it asks of the people inside it.</p>
           <div className="cta">
-            <a href="#participate" className="primary">Join the Cooperative</a>
+            <a href="#participate" className="primary" onClick={() => track('join_cooperative')}>Join the Cooperative</a>
             <a href="#about" className="secondary">The Founder&apos;s Work</a>
           </div>
         </div>
@@ -87,7 +93,7 @@ export default function Page() {
               <li><strong>Executive Orientation</strong> &mdash; Fractional AI strategy for organizations navigating at pace</li>
               <li><strong>The Signal</strong> &mdash; Ongoing translation and analysis for non-technical leadership</li>
             </ul>
-            <a href="#contact" className="secondary" style={{ marginTop: '1rem', display: 'inline-block' }}>Request an Orientation Call</a>
+            <a href="#contact" className="secondary" style={{ marginTop: '1rem', display: 'inline-block' }} onClick={() => track('orientation_call_request')}>Request an Orientation Call</a>
           </div>
           <div className="card">
             <h3>For Practitioners &amp; Builders</h3>
@@ -105,10 +111,10 @@ export default function Page() {
               <li><strong>Contribute</strong> &mdash; Sustain the infrastructure while we build</li>
             </ul>
             <div className="contribute-row">
-              <a href="https://buy.stripe.com/dRmeVfeBJgRagWs3TOasg05" target="_blank" rel="noopener noreferrer" className="primary">Contribute $3</a>
-              <a href="https://buy.stripe.com/14AcN7bpx0ScdKg760asg04" target="_blank" rel="noopener noreferrer" className="primary">Contribute $5</a>
-              <a href="https://buy.stripe.com/00wcN7fFN7gA21y0HCasg06" target="_blank" rel="noopener noreferrer" className="primary">Contribute $7</a>
-              <a href="https://github.com/logos7org" target="_blank" rel="noopener noreferrer" className="secondary">Follow on GitHub</a>
+              <a href="https://buy.stripe.com/dRmeVfeBJgRagWs3TOasg05" target="_blank" rel="noopener noreferrer" className="primary" onClick={() => track('contribute', { amount: 3 })}>Contribute $3</a>
+              <a href="https://buy.stripe.com/14AcN7bpx0ScdKg760asg04" target="_blank" rel="noopener noreferrer" className="primary" onClick={() => track('contribute', { amount: 5 })}>Contribute $5</a>
+              <a href="https://buy.stripe.com/00wcN7fFN7gA21y0HCasg06" target="_blank" rel="noopener noreferrer" className="primary" onClick={() => track('contribute', { amount: 7 })}>Contribute $7</a>
+              <a href="https://github.com/logos7org" target="_blank" rel="noopener noreferrer" className="secondary" onClick={() => track('github_follow')}>Follow on GitHub</a>
               <div style={{ marginTop: '1.5rem' }}>
                 <p style={{ fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', fontSize: '0.75rem', color: '#c9a84c', marginBottom: '0.75rem' }}>The Work</p>
                 <a href="/apps" className="secondary">The Work</a>
